@@ -22,7 +22,7 @@ namespace Nina.Routing
             }
 
             // getting all classes that implements "Controllers"
-            Result.Cors = cors;
+            BaseResult.Cors = cors;
 
             var routes = ModuleHandler.Routes = new List<RouteInfo>();
             var baseType = typeof(Module);

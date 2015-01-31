@@ -4,7 +4,7 @@ using System.Web;
 
 namespace Nina
 {
-    public class FileResult : Result
+    public class FileResult : BaseResult
     {
         private readonly string _path;
 

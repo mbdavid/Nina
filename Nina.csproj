@@ -51,7 +51,7 @@
     <Compile Include="Api\Module.cs" />
     <Compile Include="Api\RouteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Results\Result.cs" />
+    <Compile Include="Results\BaseResult.cs" />
     <Compile Include="Results\FileContentResult.cs" />
     <Compile Include="Results\FileResult.cs" />
     <Compile Include="Results\ErrorResult.cs" />

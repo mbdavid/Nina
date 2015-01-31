@@ -16,7 +16,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Nina
 {
-    public class JsonResult : Result
+    public class JsonResult : BaseResult
     {
         private object _result;
 

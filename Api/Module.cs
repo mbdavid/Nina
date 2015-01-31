@@ -31,22 +31,22 @@ namespace Nina
         {
         }
 
-        public virtual void OnExecuted(MethodInfo methodInfo, Result result)
+        public virtual void OnExecuted(MethodInfo methodInfo, BaseResult result)
         {
         }
 
         #region Results Helpers
 
-        protected Result Status(HttpStatusCode statusCode)
+        protected BaseResult Status(HttpStatusCode statusCode)
         {
-            var result = new Result();
+            var result = new BaseResult();
             result.StatusCode = (int)statusCode;
             return result;
         }
 
-        protected Result Redirect(string url)
+        protected BaseResult Redirect(string url)
         {
-            var result = new Result();
+            var result = new BaseResult();
             result.StatusCode = 302;
             result.Header["Location"] = url;
             return result;

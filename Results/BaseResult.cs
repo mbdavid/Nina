@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Nina
 {
-    public class Result
+    public class BaseResult
     {
         public static string Cors;
 
@@ -13,7 +13,7 @@ namespace Nina
         public int? StatusCode { get; set; }
         public NameValueCollection Header { get; set; }
 
-        public Result()
+        public BaseResult()
         {
             Header = new NameValueCollection();
             ContentType = "application/json";

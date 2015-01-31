@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Nina
 {
-    public class TextResult : Result
+    public class TextResult : BaseResult
     {
         private readonly string _text;
 

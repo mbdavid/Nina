@@ -66,7 +66,7 @@ namespace Nina
                 var obj = ri.MethodInfo.Invoke(instance, args);
 
                 // if result is BaseResult, use it, otherwise, convert to JsonResult
-                var result = obj is Result ? (Result)obj : new JsonResult(obj);
+                var result = obj is BaseResult ? (BaseResult)obj : new JsonResult(obj);
 
                 // Aater execute, passing Method + BaseResult
                 instance.OnExecuted(ri.MethodInfo, result);

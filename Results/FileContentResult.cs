@@ -4,7 +4,7 @@ using System.Web;
 
 namespace Nina
 {
-    public class FileContentResult : Result
+    public class FileContentResult : BaseResult
     {
         private Stream _stream;
         private byte[] _content = null;
