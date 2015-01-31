@@ -22,7 +22,7 @@ namespace Nina
 
         public JsonResult(object result)
         {
-            ContentType = "application/json";
+            this.ContentType = "application/json";
             _result = result;
         }
 
@@ -30,9 +30,14 @@ namespace Nina
         {
             base.Execute(context);
 
-            if (_result == null) return;
-
-            context.Response.Write(JsonConvert.SerializeObject(_result));
+            if (_result == null)
+            {
+                context.Response.Write("null");
+            }
+            else
+            {
+                context.Response.Write(JsonConvert.SerializeObject(_result));
+            }
         }
     }
 }

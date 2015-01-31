@@ -11,8 +11,8 @@ namespace Nina
 
         public TextResult(string text)
         {
+            this.ContentType = "plain/text";
             _text = text;
-            ContentType = "plain/text";
         }
 
         public override void Execute(HttpContext context)

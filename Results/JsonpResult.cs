@@ -26,7 +26,7 @@ namespace Nina
         public JsonpResult(object result, string callback)
             : base(result)
         {
-            ContentType = "application/x-javascript";
+            this.ContentType = "application/x-javascript";
             _callback = callback;
         }
 
