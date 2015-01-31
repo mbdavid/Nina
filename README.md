@@ -18,25 +18,35 @@ protected void Application_Start()
 
 ## Modules
 
-Modules class must inherit from `Nina.Module`. Decorete class with `[BaseUrl]` for set base url.
+Modules class must inherit from `Nina.Module`. Decorate class with `[BaseUrl]` to set base url.
 
 ```C#
-[BaseUrl("/user")]
+[BaseUrl("/users")]
 pubic class UserApi : Nina.Module
 {
     [Get("/{id}")]
     public User GetUser(int id)
     {
+        // GET /api/users/123
     }
 
-    [Post("/")]
+    [Post("/{id}")]
     public int Post(UserView user)
     {
+        // PUT /api/users
     }
     
     [Get("/code/{id:(\\[a-z]{8})}")]
     public string GetCode(string id)
     {
+        // GET /api/users/code/abcdefgh
+    }
+    
+    [ValidateInput] // Validate request data for html tags
+    [Put("/{id}")]
+    public int Post(int id, NameValueCollection data, UserView user, JObejct user2, HttpFileCollection files, Stream input)
+    {
+        // PUT /api/users/123
     }
 }
 ```
@@ -61,6 +71,7 @@ Parameters bind rules:
 - `FileContentResult` - Returns a file from a stream
 - `FileResult` - Returns a file from disk
 - `JsonPResult` - Returns JSON string with callback() function
+- `TextResult` - Returns HTML data
 
 ## Authentication & authorization
 
