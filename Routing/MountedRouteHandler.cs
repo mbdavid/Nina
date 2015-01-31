@@ -2,7 +2,7 @@ using System;
 using System.Web;
 using System.Web.Routing;
 
-namespace Nina.Routing
+namespace Nina
 {
 	internal class MountedRouteHandler : IRouteHandler
 	{

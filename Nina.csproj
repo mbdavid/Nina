@@ -58,7 +58,7 @@
     <Compile Include="Results\JsonpResult.cs" />
     <Compile Include="Results\JsonResult.cs" />
     <Compile Include="Results\TextResult.cs" />
-    <Compile Include="Routing\ApiMountingPoint.cs" />
+    <Compile Include="Routing\MountingPoint.cs" />
     <Compile Include="Routing\MountedRouteHandler.cs" />
   </ItemGroup>
   <ItemGroup>
