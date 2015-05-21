@@ -40,7 +40,7 @@ namespace Nina
             foreach (var par in pars)
             {
                 var name = par.Name;
-                var expr = @"(?<$1>.+)";
+                var expr = @"(?<$1>[^/]+)";
 
                 // if parameter is a int, lets add regex (avoid 
                 if (par.ParameterType == typeof(Int16) || par.ParameterType == typeof(Int32) || par.ParameterType == typeof(Int64)) // Inteiro

@@ -1,20 +1,51 @@
 ﻿# Nina WebAPI
 
 ## Setup
-In Global.asax, set:
+
+1) Creates a Startup.cs class
 
 ```C#
-public static void RegisterRoutes(RouteCollection routes)
+public class Startup : IHttpModule
 {
-    routes.Add(new Route("{resource}.axd/{*pathInfo}", new StopRoutingHandler()));
-    routes.Add(new Nina.MountingPoint("~/api", null));
-}
+    public void Init(HttpApplication context)
+    {
+        var routes = RouteTable.Routes;
 
-protected void Application_Start()
-{
-    RegisterRoutes(RouteTable.Routes);
+        routes.Add(new Nina.MountingPoint("~/api", null));
+    }
+
+    public void Dispose()
+    {
+    }
 }
 ```
+
+2) Edit your web.config
+
+```XML
+<system.web>
+    <httpModules>
+        <add name="NinaAPI" type="Startup, AssemblyNameHere"/>
+    </httpModules>
+</system.web>
+<system.webServer>
+    <validation validateIntegratedModeConfiguration="false"/>
+    <modules>
+        <add name="NinaAPI" type="Startup, AssemblyNameHere"/>
+    </modules>
+</system.webServer>
+    <location path="api" allowOverride="true">
+        <system.webServer>
+            <handlers>
+                <clear />
+                <add name="ExtensionlessUrl-Integrated-4.0" path="*" verb="GET,HEAD,POST,DEBUG,PUT,DELETE" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" responseBufferLimit="0" />
+            </handlers>
+        </system.webServer>
+    </location>
+</configuration>
+```
+
+3) Write your `api` modules (see below)
 
 ## Modules
 
