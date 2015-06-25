@@ -34,6 +34,8 @@ namespace Nina
 
         public override void Execute(HttpContext context)
         {
+            base.Execute(context);
+
             context.Response.Buffer = false;
             context.Response.BufferOutput = false;
             context.Response.ContentType = _contentType;

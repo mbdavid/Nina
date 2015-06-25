@@ -9,15 +9,16 @@ namespace Nina
     {
         private readonly string _text;
 
-        public TextResult(string text)
+        public TextResult(string text, string contentType = "plain/text")
         {
-            this.ContentType = "plain/text";
+            this.ContentType = contentType;
             _text = text;
         }
 
         public override void Execute(HttpContext context)
         {
             base.Execute(context);
+
             context.Response.Write(_text);
         }
     }

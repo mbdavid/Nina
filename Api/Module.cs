@@ -37,10 +37,22 @@ namespace Nina
 
         #region Results Helpers
 
+        protected BaseResult Ok()
+        {
+            return this.Status(HttpStatusCode.OK);
+        }
+
         protected BaseResult Status(HttpStatusCode statusCode)
         {
             var result = new BaseResult();
             result.StatusCode = (int)statusCode;
+            return result;
+        }
+
+        protected BaseResult Status(int statusCode)
+        {
+            var result = new BaseResult();
+            result.StatusCode = statusCode;
             return result;
         }
 
@@ -104,14 +116,12 @@ namespace Nina
 
         protected TextResult Text(string text, string contentType)
         {
-            var result = new TextResult(text);
-            result.ContentType = contentType;
-            return result;
+            return new TextResult(text, contentType);
         }
 
         protected TextResult Html(string text)
         {
-            return Text(text, "text/html");
+            return new TextResult(text, "text/html");
         }
 
         protected JsonResult Nothing()

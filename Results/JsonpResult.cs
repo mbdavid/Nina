@@ -14,9 +14,10 @@ using System.Linq.Expressions;
 
 namespace Nina
 {
-    public class JsonpResult : JsonResult
+    public class JsonpResult : BaseResult
     {
         private string _callback;
+        private object _result;
 
         public JsonpResult(object result)
             : this(result, "callback")
@@ -24,16 +25,27 @@ namespace Nina
         }
 
         public JsonpResult(object result, string callback)
-            : base(result)
         {
             this.ContentType = "application/x-javascript";
             _callback = callback;
+            _result = result;
         }
 
         public override void Execute(HttpContext context)
         {
-            context.Response.Write(string.Format("{0}(", _callback));
             base.Execute(context);
+
+            context.Response.Write(string.Format("{0}(", _callback));
+
+            if (_result == null)
+            {
+                context.Response.Write("null");
+            }
+            else
+            {
+                context.Response.Write(JsonConvert.SerializeObject(_result));
+            } 
+
             context.Response.Write(");");
         }
     }

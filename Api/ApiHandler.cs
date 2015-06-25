@@ -67,7 +67,7 @@ namespace Nina
                 // if result is BaseResult, use it, otherwise, convert to JsonResult
                 var result = obj is BaseResult ? (BaseResult)obj : new JsonResult(obj);
 
-                // Aater execute, passing Method + BaseResult
+                // After execute, passing Method + BaseResult
                 instance.OnExecuted(ri.MethodInfo, result);
 
                 // rendering result (when result == null is void)

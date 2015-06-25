@@ -15,26 +15,35 @@ namespace Nina
 
         public BaseResult()
         {
-            Header = new NameValueCollection();
-            ContentType = "application/json";
+            this.Header = new NameValueCollection();
+            this.ContentType = "application/json";
         }
 
         public virtual void Execute(HttpContext context)
         {
             var response = context.Response;
-            if(StatusCode.HasValue) response.StatusCode = StatusCode.Value;
 
-            foreach (string key in Header.Keys)
+            response.ClearContent();
+            response.ClearHeaders();
+
+            response.TrySkipIisCustomErrors = true;
+
+            if (this.StatusCode.HasValue)
+            {
+                response.StatusCode = StatusCode.Value;
+            }
+
+            foreach (string key in this.Header.Keys)
             {
                 response.AppendHeader(key, Header[key]);
             }
 
-            response.ContentType = ContentType;
-
-            if (Cors != null)
+            if (BaseResult.Cors != null)
             {
                 response.AppendHeader("Access-Control-Allow-Origin", Cors);
             }
+
+            response.ContentType = ContentType;
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Nina
 
         public override void Execute(HttpContext context)
         {
+            base.Execute(context);
+
             context.Response.TransmitFile(_path);
         }
     }
