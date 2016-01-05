@@ -80,7 +80,7 @@ namespace Nina
             }
         }
 
-        public object[] GetMethodParameters(Match match, HttpRequest request)
+        public object[] GetMethodParameters(Match match, HttpContext context)
         {
             var args = new List<object>();
             string model = null;
@@ -88,11 +88,15 @@ namespace Nina
             // Parameters bind rules:
             // - if found on route pattern? Use route value
             // - if not found:
-            //    - Parameter is String? Use model as string
-            //    - Parameter is NameValueCollection? Use Request.Params = Form + QueryString + Cookies + ServerVariables
-            //    - Parameter is Stream? Use Request.InputStream
-            //    - Parameter is Object? Use JsonDeserialize (can be a JObject too)
-            //    - Model is Null? Use default(T)
+            //    - Parameter is `String`? Use `Request.Form.ToString()`
+            //    - Parameter is `NameValueCollection`? Use `Request.Params` = Form + QueryString + Cookies + ServerVariables
+            //    - Parameter is `Stream`? Use `Request.InputStream`
+            //    - Parameter is `IPrincipal`? Use `HttpContext.User`
+            //    - Parameter is `HttpContext`? Use `HttpContext`
+            //    - Parameter is `HttpContextWrapper`? Use `new HttpContextWrapper(context)`
+            //    - Parameter is `JObject`? Use `JObject.Parse()`
+            //    - Parameter any other type? Use `JsonDeserialize(model, parameterType)`
+            //    - Model is `Null`? Use `default(T)`
 
             // [Post("/order/{id}"]
             // void Edit(int id, OrderModel order, NameValueCollection form) { ... }
@@ -108,6 +112,8 @@ namespace Nina
                 }
                 else
                 {
+                    var request = context.Request;
+
                     if (p.ParameterType == typeof(NameValueCollection)) // bind NameValueCollection to Request.Params
                     {
                         args.Add(request.Params);
@@ -120,7 +126,19 @@ namespace Nina
                     {
                         args.Add(request.Files);
                     }
-                    else 
+                    else if (p.ParameterType == typeof(IPrincipal)) // bind as Context.User
+                    {
+                        args.Add(context.User);
+                    }
+                    else if (p.ParameterType == typeof(HttpContext)) // bind as context
+                    {
+                        args.Add(context);
+                    }
+                    else if (p.ParameterType == typeof(HttpContextWrapper)) // bind as HttpContextWrapper(context)
+                    {
+                        args.Add(new HttpContextWrapper(context));
+                    }
+                    else
                     {
                         if (model == null) // load request as string
                         {
@@ -135,7 +153,11 @@ namespace Nina
                         {
                             args.Add(GetDefault(p.ParameterType));
                         }
-                        else // deserialize JSON model to convert to parameter type
+                        if (p.ParameterType == typeof(JObject)) // bind model as string 
+                        {
+                            args.Add(JObject.Parse(model));
+                        }
+                        else
                         {
                             args.Add(Newtonsoft.Json.JsonConvert.DeserializeObject(model, p.ParameterType));
                         }

@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.IO;
-using Newtonsoft.Json;
-using System.Linq.Expressions;
-using Newtonsoft.Json.Linq;
-using System.Collections.Specialized;
 using System.Net;
 using System.Reflection;
 using System.Security.Principal;
-using System.Text.RegularExpressions;
 
 namespace Nina
 {
-    public class Module : IDisposable
+    public class NinaModule : IDisposable
     {
-        public IPrincipal User { get; set; }
-
-        public Module()
+        public NinaModule()
         {
         }
 

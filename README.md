@@ -2,58 +2,49 @@
 
 ## Setup
 
-1) Creates a Startup.cs class
-
-```C#
-public class Startup : IHttpModule
-{
-    public void Init(HttpApplication context)
-    {
-        var routes = RouteTable.Routes;
-
-        routes.Add(new Nina.MountingPoint("~/api", null));
-    }
-
-    public void Dispose()
-    {
-    }
-}
-```
-
-2) Edit your web.config
+1) Edit your web.config
 
 ```XML
-<system.web>
+<?xml version="1.0"?>
+<configuration>
+  <appSettings>
+    <add key="Nina.Path" value="~/api"/>
+    <add key="Nina.Cors" value="*"/>
+  </appSettings>
+  <system.web>
+    <compilation targetFramework="4.5" debug="true"/>
     <httpModules>
-        <add name="NinaAPI" type="Startup, AssemblyNameHere"/>
+      <add name="Nina" type="Nina.Startup, Nina"/>
     </httpModules>
-</system.web>
-<system.webServer>
+  </system.web>
+  <system.webServer>
     <validation validateIntegratedModeConfiguration="false"/>
     <modules>
-        <add name="NinaAPI" type="Startup, AssemblyNameHere"/>
+      <add name="Nina" type="Nina.Startup, Nina"/>
     </modules>
-</system.webServer>
-    <location path="api" allowOverride="true">
-        <system.webServer>
-            <handlers>
-                <clear />
-                <add name="ExtensionlessUrl-Integrated-4.0" path="*" verb="GET,HEAD,POST,DEBUG,PUT,DELETE" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" responseBufferLimit="0" />
-            </handlers>
-        </system.webServer>
-    </location>
+  </system.webServer>
+  <location path="api" allowOverride="true">
+    <system.webServer>
+      <handlers>
+        <clear/>
+        <add name="ExtensionlessUrl-Integrated-4.0" path="*" verb="GET,HEAD,POST,DEBUG,PUT,DELETE" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" responseBufferLimit="0"/>
+      </handlers>
+    </system.webServer>
+  </location>
 </configuration>
 ```
 
-3) Write your `api` modules (see below)
+**ATENTION**: Always re-build after change your `web.config`
+
+2) Write your `api` modules (see below)
 
 ## Modules
 
-Modules class must inherit from `Nina.Module`. Decorate class with `[BaseUrl]` to set base url.
+Modules class must inherit from `NinaModule`. With you want, decorate class with `[BaseUrl]` to set base url.
 
 ```C#
 [BaseUrl("/users")]
-pubic class UserApi : Nina.Module
+pubic class UserApi : NinaModule
 {
     [Get("/{id}")]
     public User GetUser(int id)
@@ -88,11 +79,14 @@ Parameters bind rules:
 
 - If parameter name found on route pattern? Use route value (`/edit/{id}`)
 - If parameter name not found on route:
-    - Parameter type is `String`? Use `Request.Form.ToString()`
-    - Parameter type is `NameValueCollection`? Use `Request.Params` = Form + QueryString + Cookies + ServerVariables
-    - Parameter type is `Stream`? Use `Request.InputStream`
-    - Parameter type is `HttpFileCollection`? Use `Request.Files`
-    - Parameter type is `Object`? Use `JsonDeserialize` (can be a `JObject` too)
+    - Parameter is `String`? Use `Request.Form.ToString()`
+    - Parameter is `NameValueCollection`? Use `Request.Params` = Form + QueryString + Cookies + ServerVariables
+    - Parameter is `Stream`? Use `Request.InputStream`
+    - Parameter is `IPrincipal`? Use `HttpContext.User`
+    - Parameter is `HttpContext`? Use `HttpContext`
+    - Parameter is `HttpContextWrapper`? Use `new HttpContextWrapper(context)`
+    - Parameter is `JObject`? Use `JObject.Parse()`
+    - Parameter any other type? Use `JsonDeserialize(model, parameterType)`
     - Model is `Null`? Use `default(T)`
 
 ## Result actions
@@ -108,3 +102,8 @@ Parameters bind rules:
 
 - Use `[Authorize]` attribute - checks `HttpContext.User.Identity.IsAuthenticated`
 - Use `[Role("admin", "user")]` attribute - checkes `HttpContext.User.IsInRole()`
+
+# TODO
+
+- Support for multiples MountPoints
+- Permit path like `/download/{path*}`

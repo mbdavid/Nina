@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Web;
-using System.Net;
-using Newtonsoft.Json;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Nina
 {
-    internal class ModuleHandler : IHttpHandler
+    internal class NinaHandler : IHttpHandler
     {
         internal static List<RouteInfo> Routes { get; set; }
 
         public string MountingPointPath { get; set; }
 
-        public ModuleHandler(string mountedUrl)
+        public NinaHandler(string mountedUrl)
         {
             MountingPointPath = mountedUrl;
         }
@@ -39,7 +34,7 @@ namespace Nina
                 return;
             }
 
-            Module instance = null;
+            NinaModule instance = null;
 
             try
             {
@@ -50,13 +45,10 @@ namespace Nina
                 ri.ValidateAuthorizeAndRoles(context.User);
 
                 // get method parameter to execute
-                var args = ri.GetMethodParameters(match, context.Request);
+                var args = ri.GetMethodParameters(match, context);
 
                 // create object instance
-                instance = (Module)Activator.CreateInstance(ri.Module);
-
-                // bind user from context
-                instance.User = context.User;
+                instance = (NinaModule)Activator.CreateInstance(ri.Module);
 
                 // before execute
                 instance.OnExecuting(ri.MethodInfo, args);

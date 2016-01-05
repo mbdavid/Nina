@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Nina
 {
-	public class MountingPoint : RouteBase
+    internal class MountingPoint : RouteBase
 	{
 		private readonly string _mountedUrl;
 
@@ -16,16 +14,16 @@ namespace Nina
 	    {
             _mountedUrl = mountedUrl;
 
-            if (!mountedUrl.StartsWith("~") || mountedUrl.EndsWith("/"))
+            if (!mountedUrl.StartsWith("~/") || mountedUrl.EndsWith("/"))
             {
-                throw new ApplicationException("ApiMountingPoint: mountedUrl MUST starts with ~ and NOT ends with /");
+                throw new ApplicationException("ApiMountingPoint: mountedUrl MUST starts with ~/ and NOT ends with /");
             }
 
             // getting all classes that implements "Controllers"
             BaseResult.Cors = cors;
 
-            var routes = ModuleHandler.Routes = new List<RouteInfo>();
-            var baseType = typeof(Module);
+            var routes = NinaHandler.Routes = new List<RouteInfo>();
+            var baseType = typeof(NinaModule);
             var types = AppDomain.CurrentDomain.GetAssemblies().ToList()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => baseType.IsAssignableFrom(p) && !p.IsAbstract);

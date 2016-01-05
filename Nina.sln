@@ -1,7 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nina", "Nina.csproj", "{CB9C738A-0A1E-4FC7-9AB0-62623093A437}"
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nina", "Src\Nina.csproj", "{CB9C738A-0A1E-4FC7-9AB0-62623093A437}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Web", "Web\", "{4AC90B46-3D13-4B8A-A214-BFCBF2D445A3}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{cb9c738a-0a1e-4fc7-9ab0-62623093a437}|Nina.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_64085"
+		Debug.AspNetCompiler.PhysicalPath = "Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64085\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_64085"
+		Release.AspNetCompiler.PhysicalPath = "Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64085\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "64085"
+		SlnRelativePath = "Web\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +37,10 @@ Global
 		{CB9C738A-0A1E-4FC7-9AB0-62623093A437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB9C738A-0A1E-4FC7-9AB0-62623093A437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB9C738A-0A1E-4FC7-9AB0-62623093A437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AC90B46-3D13-4B8A-A214-BFCBF2D445A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AC90B46-3D13-4B8A-A214-BFCBF2D445A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AC90B46-3D13-4B8A-A214-BFCBF2D445A3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AC90B46-3D13-4B8A-A214-BFCBF2D445A3}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
